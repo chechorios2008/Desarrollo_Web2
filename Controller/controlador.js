@@ -7,6 +7,7 @@ controlador.inicio = (req, res) => {
     res.send('Verificando controlador')
 }
 
+
 controlador.crearUsuarios = (req, res) => {
     //console.log(req.body)
     Schemas.usuarioConect.create(req.body, (err) => {
