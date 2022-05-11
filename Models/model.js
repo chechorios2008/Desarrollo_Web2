@@ -12,6 +12,10 @@ class Schemas {
     inventarioConect=null
     constructor(){
         this.usuarios()
+        this.tipoEquipo()
+        this.estadoEquipo()
+        this.marcas()
+        this.inventario()
     }
     async conectar(){
         await mongoose.connect(uri)

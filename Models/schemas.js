@@ -1,4 +1,5 @@
 const schemas = {
+
     tipoEquipo:{
         nombre:'String',
         estado:'Boolean',
@@ -22,7 +23,7 @@ const schemas = {
         modelo:'String',
         descripcion:'String',
         fotoEquipo:'String',
-        precio:'Float',
+        precio:'Number',
         usuarioCargo:'String',
         marca:'String',
         estadoEquipo:'String',
