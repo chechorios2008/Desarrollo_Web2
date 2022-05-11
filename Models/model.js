@@ -6,6 +6,10 @@ const Schema = mongoose.Schema
 
 class Schemas {
     usuarioConect = null
+    tipoEquipoConect =null
+    estadoEquipoConect=null
+    marcasConect=null
+    inventarioConect=null
     constructor(){
         this.usuarios()
     }
@@ -18,7 +22,22 @@ class Schemas {
     usuarios(){
         let usuario = new Schema(schema.usuarios,{collection:'usuarios'})
         this.usuarioConect = mongoose.model('usuarios', usuario)
-
+    }
+    tipoEquipo(){
+        let tipoEquipo = new Schema(schema.tipoEquipo,{collection:'tipoEquipo'})
+        this.tipoEquipoConect = mongoose.model('tipoEquipo', tipoEquipo)
+    }
+    estadoEquipo(){
+        let estadoEquipo = new Schema(schema.estadoEquipo,{collection:'estadoEquipo'})
+        this.estadoEquipoConect = mongoose.model('estadoEquipo', estadoEquipo)
+    }
+    marcas(){
+        let marcas = new Schema(schema.marcas,{collection:'marcas'})
+        this.marcasConect = mongoose.model('marcas', marcas)
+    }
+    inventario(){
+        let inventario = new Schema(schema.inventario,{collection:'inventario'})
+        this.inventarioConect = mongoose.model('inventario', inventario)
     }
 }
 
