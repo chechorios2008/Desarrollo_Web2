@@ -1,0 +1,10 @@
+Comandos Basicos de GIT
+
+…or create a new repository on the command line
+echo "# Desarrollo_Web2" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/chechorios2008/Desarrollo_Web2.git
+git push -u origin main
