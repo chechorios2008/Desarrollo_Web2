@@ -3,8 +3,40 @@ const { usuarios } = require('../Models/schemas')
 const Schemas = new Schema()
 Schemas.conectar()
 function controlador() { }
-controlador.inicio = (req, res) => {
-    res.send('Verificando controlador')
+
+class OneGet{
+    static getUser(id, cb){
+        Schemas.usuarioConect
+        .findOne({_id:id})
+        .exec((err,datos)=>{
+            if(err) throw err
+            cb(datos)
+        })
+    }
+    static getTipoEquipo(id){
+        Schemas.tipoEquipoConect
+        .findOne({_id:id})
+        .exec((err,datos)=>{
+            if(err) throw err
+            cb(datos)
+        })
+    }
+    static getEstadoEquipo(id){
+        Schemas.estadoEquipoConect
+        .findOne({_id:id})
+        .exec((err,datos)=>{
+            if(err) throw err
+            cb(datos)
+        })
+    }
+    static getMarca(id){
+        Schemas.marcasConect
+        .findOne({_id:id})
+        .exec((err,datos)=>{
+            if(err) throw err
+            cb(datos)
+        })
+    }
 }
 
 
@@ -22,6 +54,12 @@ controlador.traerUsuarios = (req, res) => {
             if (err) return res.send(err)
             res.json(datos)
         })
+}
+controlador.traerUsuario= (req,res)=>{
+    let id = req.params.id
+    OneGet.getUser(id, (response)=>{
+        res.status(200).json(response)
+    })
 }
 
 controlador.modificarUsuario = (req, res) => {
@@ -46,13 +84,19 @@ controlador.crearTipoEquipo = (req, res) => {
     })
 }
 
-controlador.traerTipoEquipo = (req, res) => {
+controlador.traerTipoEquipos = (req, res) => {
     Schemas.tipoEquipoConect
         .find()
         .exec((err, datos) => {
             if (err) return res.send(err)
             res.json(datos)
         })
+}
+controlador.traerTipoEquipo= (req,res)=>{
+    let id = req.params.id
+    OneGet.getTipoEquipo(id, (response)=>{
+        res.status(200).json(response)
+    })
 }
 
 controlador.modificarTipoEquipo = (req, res) => {
@@ -71,19 +115,24 @@ controlador.modificarTipoEquipo = (req, res) => {
 //ESTADO Equipo
 
 controlador.crearEstadoEquipo = (req, res) => {
-    console.log(req.body)
     Schemas.estadoEquipoConect.create(req.body, (err) => {
         res.send('Estado creado con éxito.')
     })
 }
 
-controlador.traerEstadoEquipo = (req, res) => {
+controlador.traerEstadoEquipos = (req, res) => {
     Schemas.estadoEquipoConect
         .find()
         .exec((err, datos) => {
             if (err) return res.send(err)
             res.json(datos)
         })
+}
+controlador.traerEstadoEquipo= (req,res)=>{
+    let id = req.params.id
+    OneGet.getEstadoEquipo(id, (response)=>{
+        res.status(200).json(response)
+    })
 }
 
 controlador.modificarEstadoEquipo = (req, res) => {
@@ -108,13 +157,19 @@ controlador.crearMarca = (req, res) => {
     })
 }
 
-controlador.traerMarca = (req, res) => {
+controlador.traerMarcas = (req, res) => {
     Schemas.marcasConect
         .find()
         .exec((err, datos) => {
             if (err) return res.send(err)
             res.json(datos)
         })
+}
+controlador.traerMarca= (req,res)=>{
+    let id = req.params.id
+    OneGet.getMarca(id, (response)=>{
+        res.status(200).json(response)
+    })
 }
 
 controlador.modificarMarca = (req, res) => {
