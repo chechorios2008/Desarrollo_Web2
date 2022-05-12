@@ -21,4 +21,9 @@ router
     .post('/crearMarca', controlador.crearMarca)
     .put('/modificarMarca',controlador.modificarMarca)
 
+    .get('/traerInventarios',controlador.traerInventarios)
+    //.get('/traerInventario/:id', controlador.traerInventario)
+    .post('/crearInventario', controlador.crearInventario)
+    .put('/modificarInventario',controlador.modificarInventario)
+
 module.exports = router

@@ -4,38 +4,38 @@ const Schemas = new Schema()
 Schemas.conectar()
 function controlador() { }
 
-class OneGet{
-    static getUser(id, cb){
+class OneGet {
+    static getUser(id, cb) {
         Schemas.usuarioConect
-        .findOne({_id:id})
-        .exec((err,datos)=>{
-            if(err) throw err
-            cb(datos)
-        })
+            .findOne({ _id: id })
+            .exec((err, datos) => {
+                if (err) throw err
+                cb(datos)
+            })
     }
-    static getTipoEquipo(id){
+    static getTipoEquipo(id) {
         Schemas.tipoEquipoConect
-        .findOne({_id:id})
-        .exec((err,datos)=>{
-            if(err) throw err
-            cb(datos)
-        })
+            .findOne({ _id: id })
+            .exec((err, datos) => {
+                if (err) throw err
+                cb(datos)
+            })
     }
-    static getEstadoEquipo(id){
+    static getEstadoEquipo(id) {
         Schemas.estadoEquipoConect
-        .findOne({_id:id})
-        .exec((err,datos)=>{
-            if(err) throw err
-            cb(datos)
-        })
+            .findOne({ _id: id })
+            .exec((err, datos) => {
+                if (err) throw err
+                cb(datos)
+            })
     }
-    static getMarca(id){
+    static getMarca(id) {
         Schemas.marcasConect
-        .findOne({_id:id})
-        .exec((err,datos)=>{
-            if(err) throw err
-            cb(datos)
-        })
+            .findOne({ _id: id })
+            .exec((err, datos) => {
+                if (err) throw err
+                cb(datos)
+            })
     }
 }
 
@@ -55,24 +55,24 @@ controlador.traerUsuarios = (req, res) => {
             res.json(datos)
         })
 }
-controlador.traerUsuario= (req,res)=>{
+controlador.traerUsuario = (req, res) => {
     let id = req.params.id
-    OneGet.getUser(id, (response)=>{
+    OneGet.getUser(id, (response) => {
         res.status(200).json(response)
     })
 }
 
 controlador.modificarUsuario = (req, res) => {
-    if (req.body._id != null){
+    if (req.body._id != null) {
         Schemas.usuarioConect
-        .updateOne({
-            _id:req.body._id
-        },{$set:{usuarios:req.body.usuarios, email:req.body.estado, estado:req.body.estado , fechaActualizacion:Date.now()}})
-        .exec((err) => {
-            if (err) return res.send(err)
-            res.json({mensaje:'Usuario editado con éxito'})
-        })
-    }  
+            .updateOne({
+                _id: req.body._id
+            }, { $set: { usuarios: req.body.usuarios, email: req.body.estado, estado: req.body.estado, fechaActualizacion: Date.now() } })
+            .exec((err) => {
+                if (err) return res.send(err)
+                res.json({ mensaje: 'Usuario editado con éxito' })
+            })
+    }
 }
 
 //Tipo Equipo
@@ -92,24 +92,24 @@ controlador.traerTipoEquipos = (req, res) => {
             res.json(datos)
         })
 }
-controlador.traerTipoEquipo= (req,res)=>{
+controlador.traerTipoEquipo = (req, res) => {
     let id = req.params.id
-    OneGet.getTipoEquipo(id, (response)=>{
+    OneGet.getTipoEquipo(id, (response) => {
         res.status(200).json(response)
     })
 }
 
 controlador.modificarTipoEquipo = (req, res) => {
-    if (req.body._id != null){
+    if (req.body._id != null) {
         Schemas.tipoEquipoConect
-        .updateOne({
-            _id:req.body._id
-        },{$set:{nombre:req.body.nombre, estado:req.body.estado, fechaActualizacion:Date.now()}})
-        .exec((err) => {
-            if (err) return res.send(err)
-            res.json({mensaje:'Usuario editado con éxito'})
-        })
-    }  
+            .updateOne({
+                _id: req.body._id
+            }, { $set: { nombre: req.body.nombre, estado: req.body.estado, fechaActualizacion: Date.now() } })
+            .exec((err) => {
+                if (err) return res.send(err)
+                res.json({ mensaje: 'Usuario editado con éxito' })
+            })
+    }
 }
 
 //ESTADO Equipo
@@ -128,24 +128,24 @@ controlador.traerEstadoEquipos = (req, res) => {
             res.json(datos)
         })
 }
-controlador.traerEstadoEquipo= (req,res)=>{
+controlador.traerEstadoEquipo = (req, res) => {
     let id = req.params.id
-    OneGet.getEstadoEquipo(id, (response)=>{
+    OneGet.getEstadoEquipo(id, (response) => {
         res.status(200).json(response)
     })
 }
 
 controlador.modificarEstadoEquipo = (req, res) => {
-    if (req.body._id != null){
+    if (req.body._id != null) {
         Schemas.estadoEquipoConect
-        .updateOne({
-            _id:req.body._id
-        },{$set:{nombre:req.body.nombre, estado:req.body.estado, fechaActualizacion:Date.now()}})
-        .exec((err) => {
-            if (err) return res.send(err)
-            res.json({mensaje:'Estado editado con éxito'})
-        })
-    }  
+            .updateOne({
+                _id: req.body._id
+            }, { $set: { nombre: req.body.nombre, estado: req.body.estado, fechaActualizacion: Date.now() } })
+            .exec((err) => {
+                if (err) return res.send(err)
+                res.json({ mensaje: 'Estado editado con éxito' })
+            })
+    }
 }
 
 //MARCA.
@@ -165,24 +165,95 @@ controlador.traerMarcas = (req, res) => {
             res.json(datos)
         })
 }
-controlador.traerMarca= (req,res)=>{
+controlador.traerMarca = (req, res) => {
     let id = req.params.id
-    OneGet.getMarca(id, (response)=>{
+    OneGet.getMarca(id, (response) => {
         res.status(200).json(response)
     })
 }
 
 controlador.modificarMarca = (req, res) => {
-    if (req.body._id != null){
+    if (req.body._id != null) {
         Schemas.marcasConect
-        .updateOne({
-            _id:req.body._id
-        },{$set:{nombre:req.body.nombre, estado:req.body.estado, fechaActualizacion:Date.now()}})
-        .exec((err) => {
+            .updateOne({
+                _id: req.body._id
+            }, { $set: { nombre: req.body.nombre, estado: req.body.estado, fechaActualizacion: Date.now() } })
+            .exec((err) => {
+                if (err) return res.send(err)
+                res.json({ mensaje: 'Marca editada con éxito' })
+            })
+    }
+}
+
+//INVENTARIO.
+
+controlador.crearInventario = (req, res) => {
+    /*OneGet.getUser(req.body.usuarioCargo, (respuesta) => {
+        if (respuesta.length === 1) {
+            console.log('Información guardada')
+            OneGet.getMarca((req.body.marca, (respuesta) => {
+                if (respuesta.length === 1) {
+                    console.log('Información guardada')
+                    OneGet.getEstadoEquipo(req.body.estadoEquipo, (respuesta) => {
+                        if (respuesta.length === 1) {
+                            console.log('Información guardada')
+                            OneGet.getTipoEquipo(req.body.usuarioCargo, (respuesta) => {
+                                if (respuesta.length === 1) {
+                                    console.log('Información guardada')
+                                    Schemas.inventarioConect.create(req.body,(err)=>{
+                                        if(err) res.send(err)
+                                        console.log('Información guardada')
+                                        return res.send('Inventario creado con exito.')
+                                    })
+
+                                }
+                            })
+                        }
+                    })
+                }
+            }))
+        }
+    })*/
+    Schemas.inventarioConect.create(req.body, (err) => {
+        if (err) res.send(err)
+        console.log('Información guardada')
+        return res.send('Inventario creado con exito.')
+    })
+
+}
+
+controlador.traerInventarios = (req, res) => {
+    Schemas.inventarioConect
+        .find()
+        .exec((err, datos) => {
             if (err) return res.send(err)
-            res.json({mensaje:'Marca editada con éxito'})
+            res.json(datos)
         })
-    }  
+}
+
+controlador.modificarInventario = (req, res) => {
+    if (req.body._id != null) {
+        Schemas.inventarioConect
+            .updateOne({
+                _id: req.body._id
+            }, {
+                $set: {
+                    serial: req.body.serial,
+                    modelo: req.body.modelo,
+                    descripcion: req.body.descripcion,
+                    fotoEquipo: req.body.fotoEquipo,
+                    precio: req.body.precio,
+                    usuarioCargo: req.body.usuarioCargo,
+                    marca: req.body.marca,
+                    estadoEquipo: req.body.estadoEquipo,
+                    tipoEquipo: req.body.tipoEquipo
+                }
+            })
+            .exec((err) => {
+                if (err) return res.send(err)
+                res.json({ mensaje: 'Marca editada con éxito' })
+            })
+    }
 }
 
 module.exports = controlador
