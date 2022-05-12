@@ -1,47 +1,13 @@
 const Schema = require('../Models/model')
 const { usuarios } = require('../Models/schemas')
 const Schemas = new Schema()
+const Consultas = require('./funtionController')
 Schemas.conectar()
 function controlador() { }
 
-class OneGet {
-    static getUser(id, cb) {
-        Schemas.usuarioConect
-            .findOne({ _id: id })
-            .exec((err, datos) => {
-                if (err) throw err
-                cb(datos)
-            })
-    }
-    static getTipoEquipo(id) {
-        Schemas.tipoEquipoConect
-            .findOne({ _id: id })
-            .exec((err, datos) => {
-                if (err) throw err
-                cb(datos)
-            })
-    }
-    static getEstadoEquipo(id) {
-        Schemas.estadoEquipoConect
-            .findOne({ _id: id })
-            .exec((err, datos) => {
-                if (err) throw err
-                cb(datos)
-            })
-    }
-    static getMarca(id) {
-        Schemas.marcasConect
-            .findOne({ _id: id })
-            .exec((err, datos) => {
-                if (err) throw err
-                cb(datos)
-            })
-    }
-}
-
+const GetOne = new Consultas(Schemas)
 
 controlador.crearUsuarios = (req, res) => {
-    //console.log(req.body)
     Schemas.usuarioConect.create(req.body, (err) => {
         res.send('Usuario creado con éxito.')
     })
@@ -57,9 +23,9 @@ controlador.traerUsuarios = (req, res) => {
 }
 controlador.traerUsuario = (req, res) => {
     let id = req.params.id
-    OneGet.getUser(id, (response) => {
-        res.status(200).json(response)
-    })
+    GetOne.getUser(id)
+        .then(response => res.json(response))
+        .catch(err => res.status(400).send(err))
 }
 
 controlador.modificarUsuario = (req, res) => {
@@ -94,9 +60,9 @@ controlador.traerTipoEquipos = (req, res) => {
 }
 controlador.traerTipoEquipo = (req, res) => {
     let id = req.params.id
-    OneGet.getTipoEquipo(id, (response) => {
-        res.status(200).json(response)
-    })
+    GetOne.getTipoEquipo(id)
+        .then(response => res.json(response))
+        .catch(err => res.status(400).send(err))
 }
 
 controlador.modificarTipoEquipo = (req, res) => {
@@ -130,9 +96,9 @@ controlador.traerEstadoEquipos = (req, res) => {
 }
 controlador.traerEstadoEquipo = (req, res) => {
     let id = req.params.id
-    OneGet.getEstadoEquipo(id, (response) => {
-        res.status(200).json(response)
-    })
+    GetOne.getEstadoEquipo(id)
+        .then(response => res.json(response))
+        .catch(err => res.status(400).send(err))
 }
 
 controlador.modificarEstadoEquipo = (req, res) => {
@@ -167,9 +133,9 @@ controlador.traerMarcas = (req, res) => {
 }
 controlador.traerMarca = (req, res) => {
     let id = req.params.id
-    OneGet.getMarca(id, (response) => {
-        res.status(200).json(response)
-    })
+    GetOne.getMarca(id)
+        .then(response => res.json(response))
+        .catch(err => res.status(400).send(err))
 }
 
 controlador.modificarMarca = (req, res) => {
@@ -188,38 +154,19 @@ controlador.modificarMarca = (req, res) => {
 //INVENTARIO.
 
 controlador.crearInventario = (req, res) => {
-    /*OneGet.getUser(req.body.usuarioCargo, (respuesta) => {
-        if (respuesta.length === 1) {
-            console.log('Información guardada')
-            OneGet.getMarca((req.body.marca, (respuesta) => {
-                if (respuesta.length === 1) {
-                    console.log('Información guardada')
-                    OneGet.getEstadoEquipo(req.body.estadoEquipo, (respuesta) => {
-                        if (respuesta.length === 1) {
-                            console.log('Información guardada')
-                            OneGet.getTipoEquipo(req.body.usuarioCargo, (respuesta) => {
-                                if (respuesta.length === 1) {
-                                    console.log('Información guardada')
-                                    Schemas.inventarioConect.create(req.body,(err)=>{
-                                        if(err) res.send(err)
-                                        console.log('Información guardada')
-                                        return res.send('Inventario creado con exito.')
-                                    })
-
-                                }
-                            })
-                        }
-                    })
-                }
-            }))
+    GetOne.getUser(req.body.usuarioCargo)
+        .then(() => GetOne.getMarca(req.body.marca))
+        .then(() => GetOne.getEstadoEquipo(req.body.estadoEquipo))
+        .then(() => GetOne.getTipoEquipo(req.body.tipoEquipo))
+        .then(() => GetOne.getSerialOrModel(req.body.serial, req.body.modelo))
+        .then(() => {
+            Schemas.inventarioConect.create(req.body, (err) => {
+                if (err) res.send(err)
+                console.log('Información guardada')
+                res.send('Inventario creado con exito.')
+            })
         }
-    })*/
-    Schemas.inventarioConect.create(req.body, (err) => {
-        if (err) res.send(err)
-        console.log('Información guardada')
-        return res.send('Inventario creado con exito.')
-    })
-
+        ).catch(err => res.send(err))
 }
 
 controlador.traerInventarios = (req, res) => {
@@ -233,26 +180,34 @@ controlador.traerInventarios = (req, res) => {
 
 controlador.modificarInventario = (req, res) => {
     if (req.body._id != null) {
-        Schemas.inventarioConect
-            .updateOne({
-                _id: req.body._id
-            }, {
-                $set: {
-                    serial: req.body.serial,
-                    modelo: req.body.modelo,
-                    descripcion: req.body.descripcion,
-                    fotoEquipo: req.body.fotoEquipo,
-                    precio: req.body.precio,
-                    usuarioCargo: req.body.usuarioCargo,
-                    marca: req.body.marca,
-                    estadoEquipo: req.body.estadoEquipo,
-                    tipoEquipo: req.body.tipoEquipo
-                }
-            })
-            .exec((err) => {
-                if (err) return res.send(err)
-                res.json({ mensaje: 'Marca editada con éxito' })
-            })
+        GetOne.getUser(req.body.usuarioCargo)
+            .then(() => GetOne.getMarca(req.body.marca))
+            .then(() => GetOne.getEstadoEquipo(req.body.estadoEquipo))
+            .then(() => GetOne.getTipoEquipo(req.body.tipoEquipo))
+            .then(() => GetOne.getSerialOrModel(req.body.serial, req.body.modelo))
+            .then(() => {
+                Schemas.inventarioConect
+                    .updateOne({
+                        _id: req.body._id
+                    }, {
+                        $set: {
+                            serial: req.body.serial,
+                            modelo: req.body.modelo,
+                            descripcion: req.body.descripcion,
+                            fotoEquipo: req.body.fotoEquipo,
+                            precio: req.body.precio,
+                            usuarioCargo: req.body.usuarioCargo,
+                            marca: req.body.marca,
+                            estadoEquipo: req.body.estadoEquipo,
+                            tipoEquipo: req.body.tipoEquipo
+                        }
+                    })
+                    .exec((err) => {
+                        if (err) return res.send(err)
+                        res.json({ mensaje: 'Marca editada con éxito' })
+                    })
+            }
+            ).catch(err => res.send(err))
     }
 }
 
