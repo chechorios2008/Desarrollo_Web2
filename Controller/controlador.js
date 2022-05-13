@@ -162,7 +162,6 @@ controlador.crearInventario = (req, res) => {
         .then(() => {
             Schemas.inventarioConect.create(req.body, (err) => {
                 if (err) res.send(err)
-                console.log('Información guardada')
                 res.send('Inventario creado con exito.')
             })
         }
