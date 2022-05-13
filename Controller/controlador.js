@@ -203,7 +203,7 @@ controlador.modificarInventario = (req, res) => {
                     })
                     .exec((err) => {
                         if (err) return res.send(err)
-                        res.json({ mensaje: 'Marca editada con éxito' })
+                        res.json({ mensaje: 'Inventario modificado con exito' })
                     })
             }
             ).catch(err => res.send(err))
